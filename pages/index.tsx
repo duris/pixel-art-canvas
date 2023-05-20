@@ -1,21 +1,19 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import PixelArtImage from "./components/PixelArtImage";
-
-const inter = Inter({ subsets: ["latin"] });
+import ToolSet from "./components/Tools";
 
 export default function Home() {
   return (
     <div>
-      <h1>Pixelator</h1>
+      <h1>PixelPrinted</h1>
       <canvas
         style={{
-          background: "white",
+          background: "blue",
           width: 1000,
           height: 600,
         }}
       />
       <PixelArtImage />
+      <ToolSet />
     </div>
   );
 }

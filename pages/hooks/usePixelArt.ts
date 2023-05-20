@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
+import { useTool } from "../context/ToolContext";
 
 type PixelArtHook = [
   React.RefObject<HTMLCanvasElement>,
@@ -8,6 +9,7 @@ type PixelArtHook = [
 ];
 
 const usePixelArt: () => PixelArtHook = () => {
+  const { color } = useTool();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [saveState, setSaveState] = useState<(() => void) | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -96,8 +98,12 @@ const usePixelArt: () => PixelArtHook = () => {
                       a /= 255;
 
                       // Draw the pixelated image onto the actual canvas
-                      ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-                      ctx.fillRect(i, j, pixelSize, pixelSize);
+                      if (color === "transparent") {
+                        ctx.clearRect(i, j, pixelSize, pixelSize);
+                      } else {
+                        ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+                        ctx.fillRect(i, j, pixelSize, pixelSize);
+                      }
                     }
                   }
                 }

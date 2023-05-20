@@ -13,11 +13,16 @@ const useLocalStorage = (
 
   const loadCanvasFromLocalStorage = () => {
     const dataUrl = localStorage.getItem(key);
-    if (canvasRef.current && dataUrl) {
+
+    if (dataUrl) {
       const img = new Image();
       img.onload = () => {
+        if (!canvasRef.current) return;
         const ctx = canvasRef.current?.getContext("2d");
         if (ctx) {
+          // Set the canvas dimensions to match the image dimensions
+          canvasRef.current.width = img.width;
+          canvasRef.current.height = img.height;
           ctx.drawImage(img, 0, 0);
         }
       };

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import useLocalStorage from "./useLocalStorage";
+import { useTool } from "../context/ToolContext";
 
 type PaintingHook = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
@@ -14,6 +15,7 @@ const usePixelPainting: PaintingHook = (
   pixelSize,
   saveState
 ) => {
+  const { tool } = useTool();
   const { saveCanvasToLocalStorage, loadCanvasFromLocalStorage } =
     useLocalStorage(canvasRef, "pixelArt");
 
