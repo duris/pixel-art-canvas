@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import useLocalStorage from "./useLocalStorage";
 import { useTool } from "../context/ToolContext";
 
 type PaintingHook = (
@@ -16,8 +15,6 @@ const usePixelPainting: PaintingHook = (
   saveState
 ) => {
   const { tool } = useTool();
-  const { saveCanvasToLocalStorage, loadCanvasFromLocalStorage } =
-    useLocalStorage(canvasRef, "pixelArt");
 
   useEffect(() => {
     let painting = false;
@@ -34,6 +31,7 @@ const usePixelPainting: PaintingHook = (
     };
 
     const draw = (event: MouseEvent) => {
+      if (tool !== "PAINT_BRUSH") return;
       if (!painting) return;
       const canvas = canvasRef.current;
       if (canvas) {

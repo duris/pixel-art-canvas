@@ -4,10 +4,8 @@ import usePixelPainting from "../hooks/usePixelPainting";
 import useUndoRedo from "../hooks/useUndoRedo";
 import useDragAndDrop from "../hooks/useDragAndDrop";
 import { Tools, useTool } from "../context/ToolContext";
-import { useLayers } from "../context/LayerContext";
 
 const PixelArtImage: React.FC = () => {
-  const { layers, addLayer, removeLayer } = useLayers();
   const [position, handleActivateLayer] = useDragAndDrop();
   const [canvasRef, handleUpload] = usePixelArt();
   const { color, setColor, tool, setTool } = useTool();

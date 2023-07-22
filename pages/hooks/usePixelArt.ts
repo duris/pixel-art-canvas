@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import useLocalStorage from "./useLocalStorage";
+// import useLocalStorage from "./useLocalStorage";
 import { useTool } from "../context/ToolContext";
 
 type PixelArtHook = [
   React.RefObject<HTMLCanvasElement>,
-  (file: File | null) => void,
-  (saveStateFunction: () => void) => void
+  (file: File | null) => void
 ];
 
 const usePixelArt: () => PixelArtHook = () => {
@@ -13,9 +12,6 @@ const usePixelArt: () => PixelArtHook = () => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [saveState, setSaveState] = useState<(() => void) | null>(null);
   const [file, setFile] = useState<File | null>(null);
-
-  const { saveCanvasToLocalStorage, loadCanvasFromLocalStorage } =
-    useLocalStorage(canvasRef, "pixelArt");
 
   const handleUpload = useCallback(
     async (file: File | null) => {
@@ -47,7 +43,7 @@ const usePixelArt: () => PixelArtHook = () => {
                     height = 500;
                   }
                 }
-                const pixelSize = 10;
+                const pixelSize = 5;
                 canvasRef.current.width = width;
                 canvasRef.current.height = height;
 
@@ -109,7 +105,7 @@ const usePixelArt: () => PixelArtHook = () => {
                 }
 
                 // Save the pixel art to localStorage
-                saveCanvasToLocalStorage();
+                // saveCanvasToLocalStorage();
               }
             }
           };
@@ -121,21 +117,7 @@ const usePixelArt: () => PixelArtHook = () => {
     [canvasRef, saveState]
   );
 
-  const setSaveStateFunction = (saveStateFunction: () => void) => {
-    setSaveState(() => saveStateFunction);
-  };
-
-  // Load the state from localStorage when the component mounts
-  useEffect(() => {
-    loadCanvasFromLocalStorage();
-  }, []);
-
-  // Save the state to localStorage whenever the canvas changes
-  useEffect(() => {
-    saveCanvasToLocalStorage();
-  }, [canvasRef, file]);
-
-  return [canvasRef, handleUpload, setSaveStateFunction];
+  return [canvasRef, handleUpload];
 };
 
 export default usePixelArt;
